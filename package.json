@@ -1,0 +1,39 @@
+{
+  "name": "faxinal-conectado",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "docker compose up --build",
+    "lint": "npm run lint --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "build": "npm run build --workspaces --if-present",
+    "test:e2e": "playwright test -c tests/e2e/playwright.config.ts",
+    "validate": "npm run lint && npm run typecheck && npm test && npm run build",
+    "validate:docker": "docker compose run --rm api npm run lint && docker compose run --rm api npm run typecheck && docker compose run --rm api npm test && docker compose run --rm web npm run lint && docker compose run --rm web npm run typecheck && docker compose run --rm web npm test && docker compose run --rm e2e npx playwright test"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.18.0",
+    "@playwright/test": "^1.49.1",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.2.0",
+    "@types/node": "^22.10.5",
+    "eslint": "^9.18.0",
+    "eslint-plugin-react-hooks": "^5.1.0",
+    "jsdom": "^25.0.1",
+    "prettier": "^3.4.2",
+    "typescript": "^5.7.2",
+    "typescript-eslint": "^8.20.0",
+    "vite": "^6.0.7",
+    "vitest": "^2.1.8"
+  },
+  "overrides": {
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
+  }
+}

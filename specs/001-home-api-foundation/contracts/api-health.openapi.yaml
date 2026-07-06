@@ -1,0 +1,54 @@
+openapi: 3.1.0
+info:
+  title: Faxinal Conectado API Health Contract
+  version: 0.1.0
+  description: Public health contract for the initial API foundation.
+paths:
+  /health:
+    get:
+      summary: Check service health
+      description: Returns a stable healthy response when the API foundation is available.
+      operationId: getHealth
+      tags:
+        - Health
+      responses:
+        "200":
+          description: Service foundation is healthy.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - status
+                  - service
+                  - timestamp
+                properties:
+                  status:
+                    type: string
+                    enum:
+                      - healthy
+                  service:
+                    type: string
+                    example: faxinal-conectado-api
+                  timestamp:
+                    type: string
+                    format: date-time
+              examples:
+                healthy:
+                  value:
+                    status: healthy
+                    service: faxinal-conectado-api
+                    timestamp: "2026-07-06T00:00:00.000Z"
+        "500":
+          description: Service foundation is not healthy.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - status
+                properties:
+                  status:
+                    type: string
+                    enum:
+                      - unhealthy
