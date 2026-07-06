@@ -19,5 +19,17 @@ jobs:
       - run: npm run typecheck --workspace @faxinal-conectado/web
       - run: npm test --workspace @faxinal-conectado/web
       - run: npm run build --workspace @faxinal-conectado/web
+
+      # OIDC/IRSA Authentication - No more access keys!
+      - name: Configure AWS credentials via OIDC
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: "arn:aws:iam::688869023288:role/GitHubOIDCRole"
+          aws-region: "us-east-1"
+
+      - name: ECS Fargate deployment readiness
+        run: |
+          aws s3 ls
+
       - name: S3 and CloudFront deployment readiness
         run: echo "Web artifact ready for S3 upload and CloudFront invalidation"
