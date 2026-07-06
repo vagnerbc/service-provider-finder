@@ -11,7 +11,7 @@ export type HomePageContent = {
 };
 
 export const homePageContent: HomePageContent = {
-  applicationName: "Faxinal Conectado!",
+  applicationName: "Faxinal Conectado",
   headline: "Encontre prestadores de serviços locais de forma rápida e prática.",
   description:
     "Uma plataforma criada para aproximar moradores de Faxinal e região de profissionais confiáveis para o serviço que precisam.",
