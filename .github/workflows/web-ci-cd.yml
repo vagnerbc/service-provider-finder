@@ -1,0 +1,23 @@
+name: Web CI/CD
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  web:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run lint --workspace @faxinal-conectado/web
+      - run: npm run typecheck --workspace @faxinal-conectado/web
+      - run: npm test --workspace @faxinal-conectado/web
+      - run: npm run build --workspace @faxinal-conectado/web
+      - name: S3 and CloudFront deployment readiness
+        run: echo "Web artifact ready for S3 upload and CloudFront invalidation"
