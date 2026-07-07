@@ -9,6 +9,10 @@ permissions:
   contents: read
   id-token: write
 
+env:
+  AWS_REGION: us-east-1
+  S3_BUCKET: service-provider-finder
+
 jobs:
   web:
     runs-on: ubuntu-latest
@@ -29,11 +33,15 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: "arn:aws:iam::688869023288:role/github-action-role"
-          aws-region: "us-east-1"
+          aws-region: ${{ env.AWS_REGION }}
 
-      - name: ECS Fargate deployment readiness
+      - name: Deploy web build to S3
         run: |
-          aws s3 ls
+          aws s3 sync apps/web/dist "s3://$S3_BUCKET" --delete
 
-      - name: S3 and CloudFront deployment readiness
-        run: echo "Web artifact ready for S3 upload and CloudFront invalidation"
+      - name: Set no-cache headers for SPA entrypoint
+        run: |
+          aws s3 cp "s3://$S3_BUCKET/index.html" "s3://$S3_BUCKET/index.html" \
+            --metadata-directive REPLACE \
+            --cache-control "no-cache, no-store, must-revalidate" \
+            --content-type "text/html"
