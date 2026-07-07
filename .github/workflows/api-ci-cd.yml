@@ -29,7 +29,7 @@ jobs:
       - name: Configure AWS credentials via OIDC
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: "arn:aws:iam::688869023288:role/GitHubOIDCRole"
+          role-to-assume: "arn:aws:iam::688869023288:role/github-action-role"
           aws-region: "us-east-1"
 
       - name: ECS Fargate deployment readiness
